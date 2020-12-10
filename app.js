@@ -45,9 +45,40 @@ function createManager() {
      let manager = new Manager(resonse.name, resonse.email, resonse.id, resonse.Office_Number)
      employeeArray.push(manager)
      addNewMember();
- }
- )
+ })
 }
+createManager();
+
+function createIntern() {
+    inquirer.prompt([ {
+        name: "name",
+        message: "What is the intern's name?",
+        type: "input",
+    },
+    {
+        name: "ID",
+        message: "What is the intern's ID Number?",
+        type: "input",
+    },
+    {
+        name: "Email",
+        message: "What is the intern's Email Address?",
+        type: "input",
+    },
+    {
+        name: "School",
+        message: "What school does the intern attend?",
+        type: "input",
+    },
+]).then(function (response) {
+    console.log(response)
+
+    let intern = new Intern(response.name, response.Email, response.ID, response.school)
+    employeeArray.push(intern)
+    addNewMember();
+}
+
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
