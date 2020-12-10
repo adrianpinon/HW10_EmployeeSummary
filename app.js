@@ -39,10 +39,10 @@ function createManager() {
         message: "What is Manager's Office Number?", 
         type: "input",
         }
- ]).then(function (resonse) {
-     console.log(resonse)
+ ]).then(function (response) {
+     console.log(response)
 
-     let manager = new Manager(resonse.name, resonse.email, resonse.id, resonse.Office_Number)
+     let manager = new Manager(response.name, response.email, response.id, response.Office_Number)
      employeeArray.push(manager)
      addNewMember();
  })
@@ -76,8 +76,63 @@ function createIntern() {
     let intern = new Intern(response.name, response.Email, response.ID, response.school)
     employeeArray.push(intern)
     addNewMember();
-}
 
+},
+
+function createEngineer() {
+    inquirer.prompt ([ {
+        name: "name",
+        message: "What is the engineer's name?",
+        type: "input",
+    },
+    {
+        name: "ID",
+        message: "What is the engineer's ID number?",
+        type: "input",
+    },
+    {
+        name: "email",
+        message: "What is the engineer's emial?",
+        type: "input",
+    },
+    {
+        name: "github",
+        message: "What is the engineer's GitHub name?",
+        type: "input",
+    },
+
+
+    ]).then(function (response) {
+        console.log (response)
+
+        let engineer = new Engineer(response.name, response.email, response.ID, response.github)
+        employeeArray.push(engineer)
+        addNewMember();    
+    })
+},
+
+function addNewMember() {
+    inquirer.prompt([ { 
+        name: "add", 
+        message: "Do you want to add more employees?", 
+        choices: noYes, type: "list" 
+    }
+
+    ]).then(function (response) {
+        console.log(response)
+        if (response.add == "yes") {
+            employeeType();
+        } else {
+            if (!fs.existsSync(OUTPUT_DIR)){
+                fs.mkdirSync(OUTPUT_DIR);
+            }
+            fs.writeFile(outputPath, render(employeeArray), function (error, data) {
+                if (error) throw error
+                console.log("Your Employee Summary has been created!")
+            })
+        }
+    })
+})}
 
 
 // After the user has input all employees desired, call the `render` function (required
