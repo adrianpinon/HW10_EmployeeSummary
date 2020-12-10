@@ -9,10 +9,45 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { resolveSoa } = require("dns");
 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+function createManager() {
+    inquirer.prompt([ 
+        {
+        name: "name", 
+        message: "What is Manager's name?", 
+        type: "input"}
+
+        ,{
+        name: "ID", 
+        message: "What is Manager's ID Number?", 
+        type: "input",
+        }
+
+        ,{
+        name: "Email", 
+        message: "What is Manager's E-Mail Address?", 
+        type: "input",
+        }
+        
+        ,{
+        name: "Office_Number", 
+        message: "What is Manager's Office Number?", 
+        type: "input",
+        }
+ ]).then(function (resonse) {
+     console.log(resonse)
+
+     let manager = new Manager(resonse.name, resonse.email, resonse.id, resonse.Office_Number)
+     employeeArray.push(manager)
+     addNewMember();
+ }
+ )
+}
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
