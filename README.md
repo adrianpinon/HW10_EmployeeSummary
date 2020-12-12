@@ -8,3 +8,5 @@ One of the most important aspects of programming is writing code that is readabl
 The Motivation was to write code that can create a basic summary of specific employees and their role by entering data about the employee using the command-line
 
 ## Test
+
+![Demo](/assets/EmployeeSummary.gif)
