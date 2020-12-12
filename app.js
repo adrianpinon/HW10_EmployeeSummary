@@ -9,10 +9,9 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-//const { resolveSoa } = require("dns");
+const { resolveSoa } = require("dns");
 //const addNewMember = [];
 const employeeArray = [];
-let yesNO = ["yes", "no"];
 
 function createManager() {
     inquirer.prompt([ 
@@ -39,14 +38,13 @@ function createManager() {
         message: "What is Manager's Office Number?", 
         type: "input",
         },
- ])
- .then((response) => {
+ ]).then((response) => {
          console.log(response);
 
          let manager = new Manager(response.name, response.email, response.id, response.Office_Number);
-         employeeArray.push(manager);
-         addNewMember();
-         console.log(addNewMember);
+         employeeArray.push(manager)
+         //addNewMember();
+         //console.log(addNewMember);
      })
 }
 createManager();
@@ -116,9 +114,9 @@ function createEngineer() {
 function addNewMember() {
     inquirer.prompt([ { 
         name: "add", 
+        type: "checkbox", 
         message: "Do you want to add more employees?", 
-        choices: "yesNo", 
-        type: "list", 
+        choices: ["yes", "No"]
     }
 
     ]).then((response) => {
@@ -139,8 +137,12 @@ function addNewMember() {
 })}
 
 function employeeType() {
-    inquirer.prompt([
-        { name: "employee_type", message: "What type of employee?", choices: empType, type: "list" }
+    inquirer.prompt([ { 
+        name: "employee_type",  
+        type: "list",
+        message: "What type of employee?", 
+        choices: empType,
+        }
 
     ]).then((response) => {
             console.log(response);
@@ -165,12 +167,6 @@ function employeeType() {
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
 
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
