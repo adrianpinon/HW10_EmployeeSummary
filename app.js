@@ -9,45 +9,45 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const { resolveSoa } = require("dns");
+//const { resolveSoa } = require("dns");
 
 const employeeArray = [];
 let yesNO = ["yes", "no"];
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
 
 function createManager() {
     inquirer.prompt([ 
         {
         name: "name", 
         message: "What is Manager's name?", 
-        type: "input"}
+        type: "input",
+        },
 
-        ,{
+        {
         name: "ID", 
         message: "What is Manager's ID Number?", 
         type: "input",
-        }
+        },
 
-        ,{
+        {
         name: "Email", 
         message: "What is Manager's E-Mail Address?", 
         type: "input",
-        }
+        },
         
-        ,{
+        {
         name: "Office_Number", 
         message: "What is Manager's Office Number?", 
         type: "input",
         },
- ]).then(function (res) {
-    // console.log(res)
+ ])
+ .then((response) => {
+         console.log(response);
 
-     let manager = new Manager(res.name, res.email, res.id, res.Office_Number)
-     employeeArray.push(manager)
-     addNewMember();
- })
+         let manager = new Manager(response.name, response.email, response.id, response.Office_Number);
+         employeeArray.push(manager);
+         addNewMember();
+         console.log(addNewMember);
+     })
 }
 createManager();
 
@@ -72,14 +72,14 @@ function createIntern() {
         message: "What school does the intern attend?",
         type: "input",
     },
-]).then(function (response) {
-    console.log(response)
+]).then((response) => {
+        console.log(response);
 
-    let intern = new Intern(response.name, response.Email, response.ID, response.school)
-    employeeArray.push(intern)
-    addNewMember();
+        let intern = new Intern(response.name, response.Email, response.ID, response.school);
+        employeeArray.push(intern);
+        addNewMember();
 
-},
+    },
 
 function createEngineer() {
     inquirer.prompt ([ {
@@ -104,13 +104,13 @@ function createEngineer() {
     },
 
 
-    ]).then(function (response) {
-        console.log (response)
+    ]).then((response) => {
+            console.log(response);
 
-        let engineer = new Engineer(response.name, response.email, response.ID, response.github)
-        employeeArray.push(engineer)
-        addNewMember();    
-    })
+            let engineer = new Engineer(response.name, response.email, response.ID, response.github);
+            employeeArray.push(engineer);
+            addNewMember();
+        })
 },
 
 function addNewMember() {
@@ -121,43 +121,44 @@ function addNewMember() {
         type: "list", 
     }
 
-    ]).then(function (response) {
-        console.log(response)
-        if (response.add === "yes") {
-            employeeType();
-        } else {
-            if (!fs.existsSync(OUTPUT_DIR)){
-                fs.mkdirSync(OUTPUT_DIR);
+    ]).then((response) => {
+            console.log(response);
+            if (response.add === "yes") {
+                employeeType();
+            } else {
+                if (!fs.existsSync(OUTPUT_DIR)) {
+                    fs.mkdirSync(OUTPUT_DIR);
+                }
+                fs.writeFile(outputPath, render(employeeArray), function (error, data) {
+                    if (error)
+                        throw error;
+                    console.log("Your Employee Summary has been created!");
+                });
             }
-            fs.writeFile(outputPath, render(employeeArray), function (error, data) {
-                if (error) throw error
-                console.log("Your Employee Summary has been created!")
-            })
-        }
-    })
+        })
 })}
 
 function employeeType() {
     inquirer.prompt([
         { name: "employee_type", message: "What type of employee?", choices: empType, type: "list" }
 
-    ]).then(function (response) {
-        console.log(response)
+    ]).then((response) => {
+            console.log(response);
 
-        switch (response.employee_type) {
-            case "Intern":
-                createIntern();
-                break;
-            case "Manager":
-                createManager();
-                break;
-            case "Engineer":
-                createEngineer();
-                break;
-            default:
-                return
-        }
-    })
+            switch (response.employee_type) {
+                case "Intern":
+                    createIntern();
+                    break;
+                case "Manager":
+                    createManager();
+                    break;
+                case "Engineer":
+                    createEngineer();
+                    break;
+                default:
+                    return;
+            }
+        })
 }
 
 
