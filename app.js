@@ -11,6 +11,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const { resolveSoa } = require("dns");
 
+const employeeArray = [];
+let yesNO = ["yes", "no"];
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -38,11 +40,11 @@ function createManager() {
         name: "Office_Number", 
         message: "What is Manager's Office Number?", 
         type: "input",
-        }
- ]).then(function (response) {
-     console.log(response)
+        },
+ ]).then(function (res) {
+    // console.log(res)
 
-     let manager = new Manager(response.name, response.email, response.id, response.Office_Number)
+     let manager = new Manager(res.name, res.email, res.id, res.Office_Number)
      employeeArray.push(manager)
      addNewMember();
  })
@@ -115,12 +117,13 @@ function addNewMember() {
     inquirer.prompt([ { 
         name: "add", 
         message: "Do you want to add more employees?", 
-        choices: noYes, type: "list" 
+        choices: "yesNo", 
+        type: "list", 
     }
 
     ]).then(function (response) {
         console.log(response)
-        if (response.add == "yes") {
+        if (response.add === "yes") {
             employeeType();
         } else {
             if (!fs.existsSync(OUTPUT_DIR)){
@@ -133,6 +136,29 @@ function addNewMember() {
         }
     })
 })}
+
+function employeeType() {
+    inquirer.prompt([
+        { name: "employee_type", message: "What type of employee?", choices: empType, type: "list" }
+
+    ]).then(function (response) {
+        console.log(response)
+
+        switch (response.employee_type) {
+            case "Intern":
+                createIntern();
+                break;
+            case "Manager":
+                createManager();
+                break;
+            case "Engineer":
+                createEngineer();
+                break;
+            default:
+                return
+        }
+    })
+}
 
 
 // After the user has input all employees desired, call the `render` function (required
