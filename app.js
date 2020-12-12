@@ -10,7 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 //const { resolveSoa } = require("dns");
-
+//const addNewMember = [];
 const employeeArray = [];
 let yesNO = ["yes", "no"];
 
