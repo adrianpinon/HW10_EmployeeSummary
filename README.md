@@ -11,6 +11,9 @@ The Motivation was to write code that can create a basic summary of specific emp
 
 ![Demo](/assets/EmployeeSummary.gif)
 
+## Contributions
+@Adrian Pinon https://github.com/adrianpinon
+
 ## License 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
